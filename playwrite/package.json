@@ -1,0 +1,23 @@
+{
+  "name": "playwrite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  "test": "cross-env HEADLESS=true cucumber-js -f json:reports/cucumber_report.json || node generate-report.js",
+  "test:open": "cross-env HEADLESS=false cucumber-js -f json:reports/cucumber_report.json || node generate-report.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@playwright/test": "^1.40.0"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^13.0.0",
+    "cross-env": "^10.1.0",
+    "cucumber-html-reporter": "^7.2.0",
+    "fs-extra": "^11.3.5"
+  }
+}

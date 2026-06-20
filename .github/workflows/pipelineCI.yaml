@@ -33,3 +33,17 @@ jobs:
           path: |
             **/build/test-results/**
             **/build/reports/**
+
+      - name: Comprimir reporte Serenity
+        if: always()
+        run: |
+          cd target/site
+          zip -r serenity-report.zip serenity
+
+      - name: Publicar reporte Serenity comprimido
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: serenity-report
+          path: target/site/serenity-report.zip
+          retention-days: 30

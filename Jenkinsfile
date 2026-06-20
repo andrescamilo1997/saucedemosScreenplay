@@ -1,10 +1,5 @@
 pipeline {
     agent any
-    
-    options {
-        // Activa los colores profesionales en la consola de Jenkins
-        ansiColor('xterm') 
-    }
 
     stages {
         stage('QA Automation - Screenplay') {

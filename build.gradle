@@ -1,0 +1,84 @@
+buildscript {
+    repositories {
+        mavenCentral() // Fuerza a Gradle a buscar el plugin en el repositorio correcto
+    }
+    dependencies {
+        // Cambiado a 4.2.4 porque la versión 4.2.3 fue saltada en el plugin de Gradle
+        classpath "net.serenity-bdd:serenity-gradle-plugin:4.2.4"
+    }
+}
+
+plugins {
+    id 'java'
+    id 'io.freefair.lombok' version '8.4'
+}
+
+// Aplicamos el plugin de Serenity manualmente desde el buildscript
+apply plugin: 'net.serenity-bdd.serenity-gradle-plugin'
+
+group 'com.saucedemo'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    // Alineamos todo a la 4.2.4 para que no tengas conflictos de compatibilidad
+    serenityVersion = '4.2.4'
+    junitVersion = '5.10.0'
+    cucumberVersion = '7.14.0'
+    lombokVersion = '1.18.30'
+}
+
+dependencies {
+    // CAMBIADO A implementation para que sea visible en src/main/java
+    implementation "net.serenity-bdd:serenity-core:${serenityVersion}"
+    implementation "net.serenity-bdd:serenity-screenplay:${serenityVersion}"
+    implementation "net.serenity-bdd:serenity-screenplay-webdriver:${serenityVersion}"
+    implementation "net.serenity-bdd:serenity-screenplay-rest:${serenityVersion}"
+    
+    // Cucumber e Integraciones (Estos se quedan en test porque Cucumber corre ahí)
+    testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
+    testImplementation "io.cucumber:cucumber-junit:${cucumberVersion}"
+    testImplementation "net.serenity-bdd:serenity-cucumber:${serenityVersion}"
+    
+    // JUnit 4
+    testImplementation 'junit:junit:4.13.2'
+    
+    // REST Assured
+    implementation 'io.rest-assured:rest-assured:5.3.2'
+    implementation 'io.rest-assured:json-path:5.3.2'
+    implementation 'io.rest-assured:xml-path:5.3.2'
+    
+    // Assertions
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+    testImplementation 'org.assertj:assertj-core:3.24.2'
+    
+    // Logging
+    implementation 'org.slf4j:slf4j-simple:2.0.9'
+    
+    // Lombok
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    
+    // Jackson
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.3'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.15.3'
+    implementation 'net.datafaker:datafaker:2.4.0'
+}
+
+test {
+    testLogging.showStandardStreams = true
+    systemProperties System.properties
+    
+    include '**/*IniciarSesionRunner.class'
+}
+
+gradle.startParameter.continueOnFailure = true
+
+tasks.withType(Test) {
+    maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+}

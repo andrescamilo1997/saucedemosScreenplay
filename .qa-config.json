@@ -1,0 +1,16 @@
+{
+  "basePackage": "com.saucedemo.saucedemo",
+  "tasksPath": "src/main/java/com/saucedemo/saucedemo/tasks",
+  "questionsPath": "src/main/java/com/saucedemo/saucedemo/questions",
+  "interactionsPath": "src/main/java/com/saucedemo/saucedemo/interactions",
+  "modelsPath": "src/main/java/com/saucedemo/saucedemo/models",
+  "utilsPath": "src/main/java/com/saucedemo/saucedemo/utils",
+  "exceptionsPath": "src/main/java/com/saucedemo/saucedemo/exceptions",
+  "enumsPath": "src/main/java/com/saucedemo/saucedemo/enums",
+  "integrationsPath": "src/main/java/com/saucedemo/saucedemo/integrations",
+  "userInterfacesPath": "src/main/java/com/saucedemo/saucedemo/userinterfaces",
+  "stepDefinitionsPath": "src/test/java/com/saucedemo/saucedemo/stepdefinitions",
+  "runnersPath": "src/test/java/com/saucedemo/saucedemo/runners",
+  "featuresPath": "src/test/resources/features",
+  "setdatosPath": "src/test/resources/setdatos"
+}

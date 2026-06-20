@@ -1,33 +1,35 @@
-trigger:
-  - main
+name: Pipeline CI
 
-pool:
-  vmImage: 'ubuntu-latest'
+on:
+  push:
+    branches:
+      - main
 
-stages:
-  - stage: QA_Automation
-    displayName: 'Etapa de Pruebas Automatizadas'
-    jobs:
-      - job: Run_Serenity_Tests
-        displayName: 'Ejecución de Pruebas con Gradle'
-        steps:
-          - checkout: self
-            displayName: 'Paso 1: Extraer proyecto desde Git'
-          - task: JavaToolInstaller@0
-            displayName: 'Configurar entorno Java (JDK 17)'
-            inputs:
-              versionSpec: '17'
-              jdkSourceOption: 'PreInstalled'
-              jdkArchitectureOption: 'x64'
-          - script: |
-              echo "Otorgando permisos de ejecución al wrapper de Gradle..."
-              chmod +x ./gradlew
-              echo "Iniciando la compilación y ejecución de pruebas..."
-              ./gradlew clean build test aggregate
-            displayName: 'Paso 2: Ejecutar ./gradlew clean build test aggregate'
-          - task: PublishTestResults@2
-            displayName: 'Paso 3: Publicar Reportes XML en Azure'
-            condition: always()
-            inputs:
-              testResultsFormat: 'JUnit'
-              testResultsFiles: '**/test-results/**/*.xml'
+jobs:
+  qa_automation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Extraer proyecto desde Git
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Dar permisos a Gradle Wrapper
+        run: chmod +x ./gradlew
+
+      - name: Ejecutar pruebas
+        run: ./gradlew clean build test aggregate
+
+      - name: Publicar resultados de pruebas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            **/build/test-results/**
+            **/build/reports/**

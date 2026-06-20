@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "test": "cross-env HEADLESS=true cucumber-js -f json:reports/cucumber_report.json || node generate-report.js",
-  "test:open": "cross-env HEADLESS=false cucumber-js -f json:reports/cucumber_report.json || node generate-report.js"
+  "test": "cross-env HEADLESS=true cucumber-js -f json:reports/cucumber_report.json",
+  "test:open": "cross-env HEADLESS=false cucumber-js -f json:reports/cucumber_report.json"
   },
   "keywords": [],
   "author": "",

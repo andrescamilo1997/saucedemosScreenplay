@@ -47,6 +47,7 @@ jobs:
           path: target/site/serenity-report.zip
           retention-days: 30
 
+  # 🎭 JOB 2: Automatización con Playwright, Cucumber y JavaScript
   qa_automation_playwright:
     runs-on: ubuntu-latest
     needs: qa_automation_screenplay 
@@ -58,7 +59,7 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24' # 🚀 CORRECCIÓN 1: Cambiamos de '20' a '24' para cumplir con Cucumber
+          node-version: '24'
 
       - name: Instalar dependencias de Node
         run: |
@@ -73,25 +74,14 @@ jobs:
       - name: Ejecutar pruebas Playwright en Headless
         run: |
           cd playwrite
-          # 💡 Eliminamos el "|| node generate-report.js" de aquí del YAML. 
-          # Dejamos que Cucumber corra limpio y maneje sus salidas.
+          # Al correr esto, Cucumber creará el .json y el .html automáticamente
           npm test
-
-      # 🚀 CORRECCIÓN 2: Si el archivo generate-report.js está un nivel atrás (en la raíz general),
-      # le decimos a Node exactamente dónde ir a buscarlo sin importar si el test falló o pasó.
-      - name: Generar Reporte HTML Visual
-        if: always()
-        run: |
-          # Si confirmas que 'generate-report.js' está en la raíz general, se ejecuta así:
-          node generate-report.js
-          
-          # NOTA: Si al moverlo lo dejaste DENTRO de la carpeta playwrite, 
-          # cambia la línea de arriba por: node playwrite/generate-report.js
 
       - name: Comprimir reporte de Cucumber HTML
         if: always()
         run: |
           cd playwrite
+          # Comprimimos la carpeta de reportes completa (donde está el .html y las fotos)
           zip -r cucumber-report.zip reports/
 
       - name: Publicar reporte Cucumber comprimido

@@ -7,12 +7,11 @@ pipeline {
     }
 
     stages {
-        // ☕ ETAPA 1: Serenity Screenplay (Java + Gradle)
         stage('QA Automation - Screenplay') {
             steps {
                 echo 'Iniciando pruebas de Serenity Screenplay...'
                 // Ejecución nativa usando tu Gradle Wrapper local
-                bat './gradlew clean build test aggregate'
+                bat 'gradlew clean build test aggregate'
             }
             post {
                 always {

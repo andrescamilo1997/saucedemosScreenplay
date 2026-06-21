@@ -42,15 +42,15 @@ public class IniciarSesionDefinition {
                 Open.url(baseUrl)
         );
     }
-    @Dado("que el usuario {string} está en la página de registro de productos")
-    @Cuando("que el usuario {string} está bloqueado")
+    @Dado("que el usuario {string} esta en la pagina de registro de productos")
+    @Cuando("que el usuario {string} esta bloqueado")
     public void queElUsuarioEstaBloqueado(String usuario) {
         OnStage.theActorInTheSpotlight().attemptsTo(
             IniciarSesion.conLasCredenciales(usuario, "secret_sauce")
         );
     }
 
-    @Entonces("el sistema debería mostrar un mensaje de error {string}")
+    @Entonces("el sistema deberia mostrar un mensaje de error {string}")
     public void elSistemaDeberiaMostrarUnMensajeDeError(String mensaje) {
         OnStage.theActorInTheSpotlight().asksFor(
             ValidarSesionFallida.conMensajeError(mensaje)
@@ -64,14 +64,14 @@ public class IniciarSesionDefinition {
         );
     }
 
-    @Entonces("el producto debería ser registrado exitosamente")
+    @Entonces("el producto deberia ser registrado exitosamente")
     public void elProductoDeberiaSerRegistradoExitosamente() {
         OnStage.theActorInTheSpotlight().asksFor(
             ValidarInformacion.productoRegistrado()
         );
     }
 
-    @Entonces("el sistema debería mostrar un mensaje de confirmación {string}")
+    @Entonces("el sistema deberia mostrar un mensaje de confirmacion {string}")
     public void elSistemaDeberiaMostrarUnMensajeDeConfirmacion(String mensaje) {
         OnStage.theActorInTheSpotlight().asksFor(
             ValidarRegistroProducto.productoRegistrado(mensaje)

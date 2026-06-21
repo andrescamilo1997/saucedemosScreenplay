@@ -73,3 +73,5 @@ npx playwright install chromium
 npm test
 ```
 
+## PATHS
+Para la implementación con Serenity BDD, se ha adoptado una estrategia de localización basada en XPaths orientados a atributos de ID (//*[@id='...']). Esta elección responde a una necesidad de estandarización en la capa de Page Objects, permitiendo una mayor consistencia en la sintaxis de las clases de mapeo. Esta técnica garantiza una alta resiliencia ante cambios en la estructura visual de la interfaz, asegurando que los casos de prueba sigan siendo robustos y fáciles de mantener dentro del patrón Screenplay.

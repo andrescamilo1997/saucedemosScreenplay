@@ -2,15 +2,15 @@ pipeline {
     agent any
 
     stages {
+
         stage('QA Automation - Screenplay') {
             steps {
                 echo 'Iniciando pruebas de Serenity Screenplay...'
-                // Ejecución nativa usando tu Gradle Wrapper local
                 bat 'gradlew clean build test aggregate'
             }
+
             post {
                 always {
-                    // Publica el reporte de Serenity directamente en la interfaz de Jenkins
                     publishHTML([
                         allowMissing: false,
                         alwaysLinkToLastBuild: true,
@@ -23,11 +23,10 @@ pipeline {
             }
         }
 
-        // 🎭 ETAPA 2: Playwright (Node.js + Cucumber)
         stage('QA Automation - Playwright') {
             steps {
-                echo 'Configurando entorno de Playwright...'
-                // Entramos a la carpeta, instalamos dependencias limpias y corremos en headless
+                echo 'Ejecutando Playwright + Cucumber...'
+
                 bat '''
                     cd playwrite
                     npm ci
@@ -35,24 +34,22 @@ pipeline {
                     npm test
                 '''
             }
+
             post {
                 always {
-                    // Publica el reporte nativo de Cucumber en la interfaz de Jenkins
+
+                    // Publica reporte HTML de Cucumber directamente
                     publishHTML([
-                        allowMissing: false,
+                        allowMissing: true,
                         alwaysLinkToLastBuild: true,
                         keepAll: true,
                         reportDir: 'playwrite/reports',
                         reportFiles: 'cucumber-report.html',
                         reportName: 'Reporte Cucumber Playwright'
                     ])
-                    
-                    // Almacena el zip de respaldo en la sección de artefactos del Build
-                    bat '''
-                        cd playwrite
-                        tar -a -c -f cucumber-report.zip reports/
-                    '''
-                    archiveArtifacts artifacts: 'playwrite/cucumber-report.zip', allowEmptyArchive: true
+
+                    // Guarda TODOS los reportes como artefactos (sin comprimir)
+                    archiveArtifacts artifacts: 'playwrite/reports/**', allowEmptyArchive: true
                 }
             }
         }

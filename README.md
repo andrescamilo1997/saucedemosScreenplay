@@ -35,7 +35,9 @@ proyecto
 ├── serenity.properties               # Propiedades de Serenity
 ├── CI/   
 │    └── azure-pipeline-template.yaml # Pipeline de Azure DevOps
-└── build.gradle                      # Configuración de Gradle
+├── build.gradle                      # Configuración de Gradle
+├── playwrite                         # proyecto automatizado de PW con reporte y escenarios
+└── evidenciasjenkins                 #Evidencias de ejecución y muestra de reportes ejecutados desde jenkins
 ```
 
 ## Configuration
@@ -52,12 +54,6 @@ proyecto
 # Run all tests
 gradle clean test
 
-# Run specific tag
-gradle clean test -Dcucumber.filter.tags="@smoke"
-
-# Run in specific environment
-gradle clean test -Denvironment=qa
-
 # Generate aggregated report
 gradle clean test aggregate
 ```
@@ -68,3 +64,12 @@ After running tests, open the Serenity report:
 ```bash
 open build/reports/serenity/index.html
 ```
+
+## Playwrite
+```bash
+cd playwrite
+npm ci
+npx playwright install chromium
+npm test
+```
+
